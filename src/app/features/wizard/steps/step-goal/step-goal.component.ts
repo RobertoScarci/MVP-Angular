@@ -3,24 +3,52 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StateService } from '@core/services/state.service';
 import { BioAnalysisService } from '@core/services/bio-analysis.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-step-goal',
   template: `
     <app-wizard>
-      <div class="card">
-        <h2>Qual è il tuo obiettivo su LinkedIn?</h2>
+      <app-progress-indicator 
+        [currentStep]="3" 
+        [steps]="['Ruolo', 'Target', 'Attività', 'Obiettivo']">
+      </app-progress-indicator>
+      
+      <div class="card" [@cardAnimation]>
+        <div class="step-header">
+          <div class="step-icon" style="background: linear-gradient(135deg, #915907 0%, #6b4205 100%);">
+            <mat-icon>flag</mat-icon>
+          </div>
+          <h2>Qual è il tuo obiettivo su LinkedIn?</h2>
+        </div>
         <p class="step-description">
           Scegli l'obiettivo principale della tua presenza su LinkedIn. Questo determinerà la call to action nella tua bio.
         </p>
         
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="full-width" [class.focused]="isFieldFocused">
             <mat-label>Obiettivo</mat-label>
-            <mat-select formControlName="goal">
-              <mat-option value="lavoro">Trovare nuove opportunità di lavoro</mat-option>
-              <mat-option value="clienti">Trovare nuovi clienti</mat-option>
-              <mat-option value="networking">Networking e collaborazioni</mat-option>
+            <mat-select 
+              formControlName="goal"
+              (openedChange)="isFieldFocused = $event">
+              <mat-option value="lavoro">
+                <div class="option-content">
+                  <mat-icon>work</mat-icon>
+                  <span>Trovare nuove opportunità di lavoro</span>
+                </div>
+              </mat-option>
+              <mat-option value="clienti">
+                <div class="option-content">
+                  <mat-icon>handshake</mat-icon>
+                  <span>Trovare nuovi clienti</span>
+                </div>
+              </mat-option>
+              <mat-option value="networking">
+                <div class="option-content">
+                  <mat-icon>people</mat-icon>
+                  <span>Networking e collaborazioni</span>
+                </div>
+              </mat-option>
             </mat-select>
             <mat-error *ngIf="form.get('goal')?.hasError('required')">
               Seleziona un obiettivo
@@ -32,7 +60,13 @@ import { BioAnalysisService } from '@core/services/bio-analysis.service';
               <mat-icon>arrow_back</mat-icon>
               Indietro
             </button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="form.invalid"
+              [class.pulse]="form.valid"
+              class="primary-button generate-button">
               <span>Genera Bio</span>
               <mat-icon>check_circle</mat-icon>
             </button>
@@ -44,51 +78,173 @@ import { BioAnalysisService } from '@core/services/bio-analysis.service';
   styles: [`
     .card {
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.08);
-      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      padding: 40px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(145, 89, 7, 0.3);
+    }
+
+    .step-icon mat-icon {
+      color: white;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
     }
 
     h2 {
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 28px;
+      font-weight: 700;
       color: #000000;
-      margin-bottom: 8px;
+      margin: 0;
+      background: linear-gradient(135deg, #000000 0%, #915907 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .step-description {
       color: #666666;
-      font-size: 14px;
-      margin-bottom: 24px;
-      line-height: 1.5;
+      font-size: 15px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+      padding-left: 72px;
     }
 
     .full-width {
       width: 100%;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .full-width.focused {
+      transform: scale(1.02);
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+      transition: all 0.3s ease;
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+      color: #915907;
+      border-width: 2px;
+    }
+
+    .option-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-content mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #666666;
     }
 
     .step-actions {
       display: flex;
       justify-content: space-between;
-      margin-top: 24px;
+      margin-top: 32px;
       gap: 12px;
     }
 
-    button mat-icon {
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    
-    button[type="submit"] {
+    button[mat-button] {
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: all 0.3s ease;
     }
-  `]
+
+    button[mat-button]:hover {
+      background: rgba(145, 89, 7, 0.08);
+    }
+
+    .primary-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 24px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
+    }
+
+    .generate-button {
+      background: linear-gradient(135deg, #0a66c2 0%, #057642 100%);
+      box-shadow: 0 4px 16px rgba(10, 102, 194, 0.4);
+    }
+
+    .primary-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10, 102, 194, 0.4);
+    }
+
+    .generate-button:hover:not(:disabled) {
+      box-shadow: 0 6px 24px rgba(10, 102, 194, 0.5);
+    }
+
+    .primary-button.pulse {
+      animation: buttonPulse 2s infinite;
+    }
+
+    @keyframes buttonPulse {
+      0%, 100% {
+        box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
+      }
+      50% {
+        box-shadow: 0 4px 20px rgba(10, 102, 194, 0.5);
+      }
+    }
+
+    @keyframes cardAnimation {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  `],
+  animations: [
+    trigger('cardAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px) scale(0.95)' }),
+        animate('0.5s cubic-bezier(0.34, 1.56, 0.64, 1)', style({ opacity: 1, transform: 'translateY(0) scale(1)' }))
+      ])
+    ])
+  ]
 })
 export class StepGoalComponent implements OnInit {
   form!: FormGroup;
+  isFieldFocused = false;
 
   constructor(
     private fb: FormBuilder,
