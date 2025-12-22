@@ -12,7 +12,9 @@ import { Component, Input } from '@angular/core';
           [class.completed]="i < currentStep"
         >
           <div class="step-circle">
-            <mat-icon *ngIf="i < currentStep">check</mat-icon>
+            <svg *ngIf="i < currentStep" class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
             <span *ngIf="i >= currentStep">{{ i + 1 }}</span>
           </div>
           <span class="step-label">{{ step }}</span>
@@ -86,8 +88,7 @@ import { Component, Input } from '@angular/core';
       }
     }
 
-    .step-circle mat-icon {
-      font-size: 20px;
+    .check-icon {
       width: 20px;
       height: 20px;
     }
