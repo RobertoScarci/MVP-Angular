@@ -33,7 +33,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
           <div *ngIf="generatedBio" class="bio-preview" [@staggerAnimation]>
             <div class="bio-section" [@fadeInUp]>
               <div class="section-header">
-                <div class="section-icon" style="background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);">
+                <div class="section-icon">
                   <mat-icon>person</mat-icon>
                 </div>
                 <h3>Chi sei</h3>
@@ -49,7 +49,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             
             <div class="bio-section" [@fadeInUp]>
               <div class="section-header">
-                <div class="section-icon" style="background: linear-gradient(135deg, #057642 0%, #034a2e 100%);">
+                <div class="section-icon">
                   <mat-icon>trending_up</mat-icon>
                 </div>
                 <h3>Che problema risolvi / che valore porti</h3>
@@ -65,7 +65,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             
             <div class="bio-section" [@fadeInUp]>
               <div class="section-header">
-                <div class="section-icon" style="background: linear-gradient(135deg, #b24020 0%, #8a3018 100%);">
+                <div class="section-icon">
                   <mat-icon>call_to_action</mat-icon>
                 </div>
                 <h3>Call to action</h3>
@@ -142,28 +142,28 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
                   <div class="breakdown-item">
                     <span class="breakdown-label">Chiarezza</span>
                     <div class="breakdown-bar">
-                      <div class="breakdown-fill" [style.width.%]="analysis.clarity ? 100 : 0" [style.background]="analysis.clarity ? '#057642' : '#e9e5df'"></div>
+                      <div class="breakdown-fill" [class.filled]="analysis.clarity" [style.width.%]="analysis.clarity ? 100 : 0"></div>
                     </div>
                     <span class="breakdown-value">{{ analysis.clarity ? '25' : '0' }}/25</span>
                   </div>
                   <div class="breakdown-item">
                     <span class="breakdown-label">Target</span>
                     <div class="breakdown-bar">
-                      <div class="breakdown-fill" [style.width.%]="analysis.hasTarget ? 100 : 0" [style.background]="analysis.hasTarget ? '#057642' : '#e9e5df'"></div>
+                      <div class="breakdown-fill" [class.filled]="analysis.hasTarget" [style.width.%]="analysis.hasTarget ? 100 : 0"></div>
                     </div>
                     <span class="breakdown-value">{{ analysis.hasTarget ? '25' : '0' }}/25</span>
                   </div>
                   <div class="breakdown-item">
                     <span class="breakdown-label">Call to Action</span>
                     <div class="breakdown-bar">
-                      <div class="breakdown-fill" [style.width.%]="analysis.hasCta ? 100 : 0" [style.background]="analysis.hasCta ? '#057642' : '#e9e5df'"></div>
+                      <div class="breakdown-fill" [class.filled]="analysis.hasCta" [style.width.%]="analysis.hasCta ? 100 : 0"></div>
                     </div>
                     <span class="breakdown-value">{{ analysis.hasCta ? '25' : '0' }}/25</span>
                   </div>
                   <div class="breakdown-item">
                     <span class="breakdown-label">Lunghezza</span>
                     <div class="breakdown-bar">
-                      <div class="breakdown-fill" [style.width.%]="analysis.adequateLength ? 100 : 0" [style.background]="analysis.adequateLength ? '#057642' : '#e9e5df'"></div>
+                      <div class="breakdown-fill" [class.filled]="analysis.adequateLength" [style.width.%]="analysis.adequateLength ? 100 : 0"></div>
                     </div>
                     <span class="breakdown-value">{{ analysis.adequateLength ? '25' : '0' }}/25</span>
                   </div>
@@ -174,13 +174,17 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
 
           <!-- Actions -->
           <div class="result-actions" [@fadeInUp]>
-            <button mat-button (click)="goBack()" class="action-btn">
-              <mat-icon>arrow_back</mat-icon>
-              Modifica dati
+            <button mat-button (click)="goBack()" class="action-btn back-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="arrow-icon">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+              </svg>
+              <span>Modifica dati</span>
             </button>
             <button mat-raised-button color="primary" (click)="startOver()" class="action-btn primary">
-              <mat-icon>refresh</mat-icon>
-              Crea nuova bio
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="refresh-icon">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+              </svg>
+              <span>Crea nuova bio</span>
             </button>
           </div>
         </div>
@@ -198,10 +202,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       text-align: center;
       margin-bottom: 32px;
       padding: 40px 24px;
-      background: linear-gradient(135deg, #0a66c2 0%, #057642 100%);
+      background: #0a66c2;
       border-radius: 16px;
       color: white;
-      box-shadow: 0 8px 32px rgba(10, 102, 194, 0.3);
+      box-shadow: 0 4px 16px rgba(10, 102, 194, 0.2);
     }
 
     .success-icon-wrapper {
@@ -268,22 +272,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .bio-section {
       margin-bottom: 32px;
       padding: 24px;
-      background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+      background: #f9fafb;
       border-radius: 12px;
-      border-left: 4px solid transparent;
+      border-left: 4px solid #0a66c2;
       transition: all 0.3s ease;
-    }
-
-    .bio-section:nth-child(1) {
-      border-left-color: #0a66c2;
-    }
-
-    .bio-section:nth-child(2) {
-      border-left-color: #057642;
-    }
-
-    .bio-section:nth-child(3) {
-      border-left-color: #b24020;
     }
 
     .bio-section:hover {
@@ -302,10 +294,11 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       width: 48px;
       height: 48px;
       border-radius: 12px;
+      background: #0a66c2;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgba(10, 102, 194, 0.15);
     }
 
     .section-icon mat-icon {
@@ -320,10 +313,6 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       font-weight: 700;
       color: #000000;
       margin: 0;
-      background: linear-gradient(135deg, #000000 0%, #0a66c2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .section-content p {
@@ -339,13 +328,13 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       align-items: center;
       gap: 8px;
       padding: 12px;
-      background: rgba(10, 102, 194, 0.08);
+      background: #f3f2ef;
       border-radius: 8px;
       margin-top: 12px;
     }
 
     .section-tip mat-icon {
-      color: #0a66c2;
+      color: #666666;
       font-size: 18px;
       width: 18px;
       height: 18px;
@@ -361,9 +350,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .bio-full {
       margin-top: 40px;
       padding: 32px;
-      background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+      background: #f9fafb;
       border-radius: 16px;
-      border: 2px solid #e3f2fd;
+      border: 1px solid #e9e5df;
     }
 
     .full-bio-header {
@@ -425,7 +414,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
 
     .bio-text {
       background: white;
-      border: 2px solid #e3f2fd;
+      border: 1px solid #e9e5df;
       border-radius: 12px;
       padding: 24px;
       font-size: 16px;
@@ -434,13 +423,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       white-space: pre-wrap;
       margin-bottom: 20px;
       min-height: 120px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       transition: all 0.3s ease;
     }
 
     .bio-text:hover {
       border-color: #0a66c2;
-      box-shadow: 0 4px 16px rgba(10, 102, 194, 0.1);
+      box-shadow: 0 2px 8px rgba(10, 102, 194, 0.1);
     }
 
     .copy-btn {
@@ -459,7 +447,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .copy-btn.copied {
-      background: #057642;
+      background: #0a66c2;
       color: white;
     }
 
@@ -474,10 +462,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .score-section {
       margin-top: 32px;
       padding: 32px;
-      background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+      background: #f9fafb;
       border-radius: 16px;
-      border: 2px solid #e9e5df;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e9e5df;
     }
 
     .score-header {
@@ -500,7 +487,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .score-header mat-icon {
-      color: #ffc107;
+      color: #0a66c2;
       font-size: 28px;
       width: 28px;
       height: 28px;
@@ -516,21 +503,18 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .score-badge.excellent {
-      background: linear-gradient(135deg, #057642 0%, #034a2e 100%);
+      background: #0a66c2;
       color: white;
-      box-shadow: 0 4px 12px rgba(5, 118, 66, 0.3);
     }
 
     .score-badge.good {
-      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      background: #666666;
       color: white;
-      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
     }
 
     .score-badge.needs-improvement {
-      background: linear-gradient(135deg, #b24020 0%, #8a3018 100%);
+      background: #999999;
       color: white;
-      box-shadow: 0 4px 12px rgba(178, 64, 32, 0.3);
     }
 
     .score-display {
@@ -549,10 +533,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .score-value {
       font-size: 64px;
       font-weight: 700;
-      background: linear-gradient(135deg, #0a66c2 0%, #057642 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #0a66c2;
       line-height: 1;
     }
 
@@ -567,7 +548,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     ::ng-deep .mat-progress-bar-fill::after {
-      background: linear-gradient(90deg, #0a66c2 0%, #057642 100%);
+      background: #0a66c2;
     }
 
     .progress-labels {
@@ -608,7 +589,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .breakdown-fill {
       height: 100%;
       border-radius: 4px;
-      transition: width 0.8s ease;
+      background: #e9e5df;
+      transition: width 0.8s ease, background 0.3s ease;
+    }
+
+    .breakdown-fill.filled {
+      background: #0a66c2;
     }
 
     .breakdown-value {
@@ -647,6 +633,17 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
 
     .action-btn.primary:hover {
       box-shadow: 0 6px 20px rgba(10, 102, 194, 0.4);
+    }
+
+    .back-button {
+      flex-direction: row-reverse;
+    }
+
+    .arrow-icon,
+    .refresh-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
     }
 
     /* Animations */
