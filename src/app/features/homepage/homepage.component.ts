@@ -98,17 +98,23 @@ interface Tool {
         <div class="container">
           <div class="value-grid">
             <div class="value-item">
-              <mat-icon class="value-icon">speed</mat-icon>
+              <svg class="value-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/>
+              </svg>
               <h3>Risultati rapidi</h3>
               <p>Ottieni feedback immediato in pochi minuti</p>
             </div>
             <div class="value-item">
-              <mat-icon class="value-icon">insights</mat-icon>
+              <svg class="value-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21 8c-1.45 0-2.26 1.44-1.93 2.51l-3.55 3.56c-.3-.09-.74-.09-1.04 0l-2.55-2.55C12.27 10.45 11.46 9 10 9c-1.45 0-2.27 1.44-1.93 2.52l-4.56 4.55C2.44 15.74 1 16.55 1 18c0 1.1.9 2 2 2 1.45 0 2.26-1.44 1.93-2.51l4.55-4.56c.3.09.74.09 1.04 0l2.55 2.55C12.73 16.55 13.54 18 15 18c1.45 0 2.27-1.44 1.93-2.52l3.56-3.55C21.56 12.26 23 11.45 23 10c0-1.1-.9-2-2-2z"/>
+              </svg>
               <h3>Analisi approfondite</h3>
               <p>Regole deterministiche basate su best practice</p>
             </div>
             <div class="value-item">
-              <mat-icon class="value-icon">trending_up</mat-icon>
+              <svg class="value-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+              </svg>
               <h3>Miglioramento continuo</h3>
               <p>Suggerimenti concreti per ottimizzare il tuo messaggio</p>
             </div>
