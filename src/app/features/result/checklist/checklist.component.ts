@@ -8,7 +8,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     <div class="checklist-card" [@fadeIn]>
       <div class="checklist-header">
         <h3>
-          <mat-icon>checklist</mat-icon>
+          <svg class="header-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 3.99z"/>
+          </svg>
           Checklist di Qualità
         </h3>
         <div class="checklist-stats">
@@ -19,9 +21,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       <div class="checklist-items" [@staggerItems]>
         <div class="checklist-item" [class.checked]="analysis.clarity" [class.unchecked]="!analysis.clarity" [@itemAnimation]>
           <div class="item-icon-wrapper">
-            <mat-icon [class.success]="analysis.clarity" [class.error]="!analysis.clarity">
-              {{ analysis.clarity ? 'check_circle' : 'cancel' }}
-            </mat-icon>
+            <svg *ngIf="analysis.clarity" class="success-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <svg *ngIf="!analysis.clarity" class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
           </div>
           <div class="item-content">
             <span class="item-title">Chiarezza del messaggio</span>
@@ -37,9 +42,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
         
         <div class="checklist-item" [class.checked]="analysis.hasTarget" [class.unchecked]="!analysis.hasTarget" [@itemAnimation]>
           <div class="item-icon-wrapper">
-            <mat-icon [class.success]="analysis.hasTarget" [class.error]="!analysis.hasTarget">
-              {{ analysis.hasTarget ? 'check_circle' : 'cancel' }}
-            </mat-icon>
+            <svg *ngIf="analysis.hasTarget" class="success-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <svg *ngIf="!analysis.hasTarget" class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
           </div>
           <div class="item-content">
             <span class="item-title">Presenza del target</span>
@@ -55,9 +63,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
         
         <div class="checklist-item" [class.checked]="analysis.hasCta" [class.unchecked]="!analysis.hasCta" [@itemAnimation]>
           <div class="item-icon-wrapper">
-            <mat-icon [class.success]="analysis.hasCta" [class.error]="!analysis.hasCta">
-              {{ analysis.hasCta ? 'check_circle' : 'cancel' }}
-            </mat-icon>
+            <svg *ngIf="analysis.hasCta" class="success-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <svg *ngIf="!analysis.hasCta" class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
           </div>
           <div class="item-content">
             <span class="item-title">Presenza di una CTA</span>
@@ -73,9 +84,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
         
         <div class="checklist-item" [class.checked]="analysis.adequateLength" [class.unchecked]="!analysis.adequateLength" [@itemAnimation]>
           <div class="item-icon-wrapper">
-            <mat-icon [class.success]="analysis.adequateLength" [class.error]="!analysis.adequateLength">
-              {{ analysis.adequateLength ? 'check_circle' : 'cancel' }}
-            </mat-icon>
+            <svg *ngIf="analysis.adequateLength" class="success-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <svg *ngIf="!analysis.adequateLength" class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
           </div>
           <div class="item-content">
             <span class="item-title">Lunghezza adeguata</span>
@@ -122,11 +136,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       margin: 0;
     }
 
-    h3 mat-icon {
+    .header-icon {
+      width: 24px;
+      height: 24px;
       color: #0a66c2;
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
     }
 
     .checklist-stats {
@@ -214,19 +227,19 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       justify-content: center;
     }
 
-    .item-icon-wrapper mat-icon {
-      font-size: 32px;
+    .success-icon,
+    .error-icon {
       width: 32px;
       height: 32px;
       transition: all 0.3s ease;
     }
 
-    .item-icon-wrapper mat-icon.success {
+    .success-icon {
       color: #057642;
       animation: checkPulse 0.6s ease-out;
     }
 
-    .item-icon-wrapper mat-icon.error {
+    .error-icon {
       color: #b24020;
     }
 

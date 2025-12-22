@@ -13,7 +13,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
         <!-- Success Header -->
         <div class="success-header" [@fadeInDown]>
           <div class="success-icon-wrapper">
-            <mat-icon class="success-icon">celebration</mat-icon>
+            <svg class="success-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
           </div>
           <h1 class="result-title">Bio Generata con Successo!</h1>
           <p class="result-subtitle">Ecco la tua bio LinkedIn ottimizzata e l'analisi completa</p>
@@ -34,48 +36,42 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             <div class="bio-section" [@fadeInUp]>
               <div class="section-header">
                 <div class="section-icon">
-                  <mat-icon>person</mat-icon>
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
                 </div>
                 <h3>Chi sei</h3>
               </div>
               <div class="section-content">
                 <p>{{ generatedBio.whoYouAre }}</p>
-                <div class="section-tip">
-                  <mat-icon>info</mat-icon>
-                  <span>Questa sezione introduce te e il tuo ruolo professionale</span>
-                </div>
               </div>
             </div>
             
             <div class="bio-section" [@fadeInUp]>
               <div class="section-header">
                 <div class="section-icon">
-                  <mat-icon>trending_up</mat-icon>
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                  </svg>
                 </div>
                 <h3>Che problema risolvi / che valore porti</h3>
               </div>
               <div class="section-content">
                 <p>{{ generatedBio.valueProposition }}</p>
-                <div class="section-tip">
-                  <mat-icon>info</mat-icon>
-                  <span>Qui evidenzi il valore concreto che porti ai tuoi clienti o colleghi</span>
-                </div>
               </div>
             </div>
             
             <div class="bio-section" [@fadeInUp]>
               <div class="section-header">
                 <div class="section-icon">
-                  <mat-icon>call_to_action</mat-icon>
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                  </svg>
                 </div>
                 <h3>Call to action</h3>
               </div>
               <div class="section-content">
                 <p>{{ generatedBio.callToAction }}</p>
-                <div class="section-tip">
-                  <mat-icon>info</mat-icon>
-                  <span>La CTA invita il lettore a compiere un'azione specifica</span>
-                </div>
               </div>
             </div>
 
@@ -83,16 +79,22 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             <div class="bio-full" [@fadeInUp]>
               <div class="full-bio-header">
                 <h3>
-                  <mat-icon>description</mat-icon>
+                  <svg class="header-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                  </svg>
                   Bio completa pronta per LinkedIn
                 </h3>
                 <div class="bio-stats">
                   <div class="stat-item">
-                    <mat-icon>text_fields</mat-icon>
+                    <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/>
+                    </svg>
                     <span>{{ fullBio.length }} caratteri</span>
                   </div>
                   <div class="stat-item">
-                    <mat-icon>schedule</mat-icon>
+                    <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
                     <span>{{ getReadingTime() }} min lettura</span>
                   </div>
                 </div>
@@ -100,7 +102,12 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
               <div class="bio-text-wrapper">
                 <div class="bio-text">{{ fullBio }}</div>
                 <button mat-raised-button (click)="copyToClipboard()" class="copy-btn" [class.copied]="copied">
-                  <mat-icon>{{ copied ? 'check' : 'content_copy' }}</mat-icon>
+                  <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor" *ngIf="!copied">
+                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                  </svg>
+                  <svg class="copy-icon" viewBox="0 0 24 24" fill="currentColor" *ngIf="copied">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                  </svg>
                   <span>{{ copied ? 'Copiata!' : 'Copia bio' }}</span>
                 </button>
               </div>
@@ -116,7 +123,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             <div *ngIf="scoreEnabled && analysis.score !== undefined" class="score-section" [@scaleIn]>
               <div class="score-header">
                 <h3>
-                  <mat-icon>star</mat-icon>
+                  <svg class="score-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                  </svg>
                   Punteggio Qualità Bio
                 </h3>
                 <div class="score-badge" [class.excellent]="analysis.score >= 80" [class.good]="analysis.score >= 60 && analysis.score < 80" [class.needs-improvement]="analysis.score < 60">
@@ -213,7 +222,6 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .success-icon {
-      font-size: 64px;
       width: 64px;
       height: 64px;
       animation: bounce 1s ease-in-out infinite;
@@ -301,11 +309,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       box-shadow: 0 2px 8px rgba(10, 102, 194, 0.15);
     }
 
-    .section-icon mat-icon {
-      color: white;
-      font-size: 24px;
+    .section-icon svg {
       width: 24px;
       height: 24px;
+      color: white;
     }
 
     .section-header h3 {
@@ -323,28 +330,6 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       font-weight: 500;
     }
 
-    .section-tip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px;
-      background: #f3f2ef;
-      border-radius: 8px;
-      margin-top: 12px;
-    }
-
-    .section-tip mat-icon {
-      color: #666666;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
-
-    .section-tip span {
-      font-size: 13px;
-      color: #666666;
-      font-style: italic;
-    }
 
     /* Full Bio */
     .bio-full {
@@ -374,10 +359,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       margin: 0;
     }
 
-    .full-bio-header mat-icon {
-      font-size: 28px;
+    .header-icon {
       width: 28px;
       height: 28px;
+      color: #0a66c2;
     }
 
     .bio-stats {
@@ -395,11 +380,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
-    .stat-item mat-icon {
-      color: #0a66c2;
-      font-size: 18px;
+    .stat-icon {
       width: 18px;
       height: 18px;
+      color: #0a66c2;
     }
 
     .stat-item span {
@@ -439,6 +423,11 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       border-radius: 24px;
       transition: all 0.3s ease;
       box-shadow: 0 2px 8px rgba(10, 102, 194, 0.2);
+    }
+
+    .copy-icon {
+      width: 20px;
+      height: 20px;
     }
 
     .copy-btn:hover {
@@ -486,11 +475,10 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       margin: 0;
     }
 
-    .score-header mat-icon {
-      color: #0a66c2;
-      font-size: 28px;
+    .score-icon {
       width: 28px;
       height: 28px;
+      color: #0a66c2;
     }
 
     .score-badge {

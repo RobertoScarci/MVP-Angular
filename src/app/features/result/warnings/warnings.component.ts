@@ -11,7 +11,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
         <div class="card-header warning-header">
           <div class="header-content">
             <div class="header-icon warning-icon-bg">
-              <mat-icon class="warning-icon">warning</mat-icon>
+              <svg class="warning-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+              </svg>
             </div>
             <div>
               <h3>Avvisi da Considerare</h3>
@@ -24,12 +26,16 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             <div class="item-number">{{ i + 1 }}</div>
             <div class="item-content">
               <div class="item-header">
-                <mat-icon class="item-icon">error_outline</mat-icon>
+                <svg class="item-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                </svg>
                 <span class="item-title">{{ getWarningTitle(warning) }}</span>
               </div>
               <p class="item-description">{{ warning }}</p>
               <div class="item-example" *ngIf="getWarningExample(warning)">
-                <mat-icon>lightbulb_outline</mat-icon>
+                <svg class="example-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                </svg>
                 <span>{{ getWarningExample(warning) }}</span>
               </div>
             </div>
@@ -42,7 +48,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
         <div class="card-header suggestion-header">
           <div class="header-content">
             <div class="header-icon suggestion-icon-bg">
-              <mat-icon class="suggestion-icon">lightbulb</mat-icon>
+              <svg class="suggestion-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+              </svg>
             </div>
             <div>
               <h3>Suggerimenti per Migliorare</h3>
@@ -55,12 +63,16 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
             <div class="item-number suggestion-number">{{ i + 1 }}</div>
             <div class="item-content">
               <div class="item-header">
-                <mat-icon class="item-icon">trending_up</mat-icon>
+                <svg class="item-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                </svg>
                 <span class="item-title">{{ getSuggestionTitle(suggestion) }}</span>
               </div>
               <p class="item-description">{{ suggestion }}</p>
               <div class="item-benefit">
-                <mat-icon>star</mat-icon>
+                <svg class="benefit-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
                 <span>Questo miglioramento aumenterà l'efficacia della tua bio</span>
               </div>
             </div>
@@ -71,25 +83,35 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       <!-- Perfect Score -->
       <div *ngIf="analysis.warnings.length === 0 && analysis.suggestions.length === 0" class="success-card" [@scaleIn]>
         <div class="success-icon-wrapper">
-          <mat-icon class="success-icon">celebration</mat-icon>
+          <svg class="success-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
         </div>
         <h3>Perfetto! 🎉</h3>
         <p class="success-message">La tua bio rispetta tutti i criteri di qualità!</p>
         <div class="success-details">
           <div class="detail-item">
-            <mat-icon>check_circle</mat-icon>
+            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
             <span>Messaggio chiaro e professionale</span>
           </div>
           <div class="detail-item">
-            <mat-icon>check_circle</mat-icon>
+            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
             <span>Target ben identificato</span>
           </div>
           <div class="detail-item">
-            <mat-icon>check_circle</mat-icon>
+            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
             <span>Call to action efficace</span>
           </div>
           <div class="detail-item">
-            <mat-icon>check_circle</mat-icon>
+            <svg class="detail-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
             <span>Lunghezza ottimale</span>
           </div>
         </div>
@@ -139,10 +161,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .warning-icon {
-      color: white;
-      font-size: 28px;
       width: 28px;
       height: 28px;
+      color: white;
     }
 
     h3 {
@@ -207,10 +228,15 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .item-icon {
-      color: #b24020;
-      font-size: 20px;
       width: 20px;
       height: 20px;
+      color: #b24020;
+    }
+
+    .example-icon {
+      width: 18px;
+      height: 18px;
+      color: #b24020;
     }
 
     .item-title {
@@ -236,13 +262,6 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       margin-top: 4px;
     }
 
-    .item-example mat-icon {
-      color: #b24020;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-    }
 
     .item-example span {
       font-size: 13px;
@@ -271,10 +290,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .suggestion-icon {
-      color: white;
-      font-size: 28px;
       width: 28px;
       height: 28px;
+      color: white;
     }
 
     .suggestions-list {
@@ -305,6 +323,14 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .suggestion-item .item-icon {
+      width: 20px;
+      height: 20px;
+      color: #0a66c2;
+    }
+
+    .benefit-icon {
+      width: 18px;
+      height: 18px;
       color: #0a66c2;
     }
 
@@ -318,13 +344,6 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       margin-top: 4px;
     }
 
-    .item-benefit mat-icon {
-      color: #0a66c2;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-    }
 
     .item-benefit span {
       font-size: 13px;
@@ -351,11 +370,16 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .success-icon {
-      font-size: 72px;
       width: 72px;
       height: 72px;
       color: #057642;
       animation: successBounce 1s ease-in-out infinite;
+    }
+
+    .detail-icon {
+      width: 20px;
+      height: 20px;
+      color: #057642;
     }
 
     @keyframes successBounce {
@@ -403,12 +427,6 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    .detail-item mat-icon {
-      color: #057642;
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
 
     .detail-item span {
       font-size: 14px;
