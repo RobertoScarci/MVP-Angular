@@ -18,6 +18,14 @@ interface Tool {
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-content">
+          <div class="hero-logo">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="80" height="80" rx="16" fill="white" fill-opacity="0.15"/>
+              <path d="M25 25L35 55L45 25H50L40 60H30L20 25H25Z" fill="white"/>
+              <path d="M55 25H60V55H55V25Z" fill="white"/>
+              <path d="M60 25C62.2091 25 64 26.7909 64 29C64 31.2091 62.2091 33 60 33C57.7909 33 56 31.2091 56 29C56 26.7909 57.7909 25 60 25Z" fill="white"/>
+            </svg>
+          </div>
           <h1 class="hero-title">
             Valida le tue idee.<br>
             <span class="highlight">Allineale con quello che vuole la gente.</span>
@@ -44,8 +52,10 @@ interface Tool {
               [class.coming-soon]="tool.comingSoon"
               (click)="navigateToTool(tool)"
             >
-              <div class="tool-icon" [style.background-color]="tool.color + '15'">
-                <mat-icon [style.color]="tool.color">{{ tool.icon }}</mat-icon>
+              <div class="tool-icon-wrapper">
+                <div class="tool-icon" [style.background]="getIconGradient(tool.color)">
+                  <mat-icon [style.color]="tool.color" class="tool-icon-svg">{{ tool.icon }}</mat-icon>
+                </div>
               </div>
               <h3 class="tool-title">{{ tool.title }}</h3>
               <p class="tool-description">{{ tool.description }}</p>
@@ -53,7 +63,6 @@ interface Tool {
                 <span class="tool-badge" *ngIf="tool.comingSoon">Prossimamente</span>
                 <button mat-raised-button [color]="tool.comingSoon ? '' : 'primary'" [disabled]="tool.comingSoon">
                   Inizia
-                  <mat-icon>arrow_forward</mat-icon>
                 </button>
               </div>
             </div>
@@ -102,6 +111,28 @@ interface Tool {
     .hero-content {
       max-width: 900px;
       margin: 0 auto;
+    }
+
+    .hero-logo {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: center;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    .hero-logo svg {
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .hero-title {
@@ -185,20 +216,34 @@ interface Tool {
       cursor: not-allowed;
     }
 
-    .tool-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tool-icon-wrapper {
       margin-bottom: 24px;
     }
 
-    .tool-icon mat-icon {
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
+    .tool-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .tool-card:hover:not(.coming-soon) .tool-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .tool-icon-svg {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
     .tool-title {
@@ -304,7 +349,7 @@ export class HomepageComponent {
       id: 'linkedin-bio',
       title: 'Bio LinkedIn',
       description: 'Crea una bio LinkedIn efficace, orientata al valore e con una call to action chiara. Perfetta per professionisti che vogliono migliorare la propria presenza online.',
-      icon: 'work',
+      icon: 'business_center',
       color: '#0a66c2',
       route: '/bio-linkedin/step/role',
       comingSoon: false
@@ -313,7 +358,7 @@ export class HomepageComponent {
       id: 'startup-validator',
       title: 'Valutazione Idea Startup',
       description: 'Valuta se la tua idea di startup ha potenziale. Analizza il problema, il target, la soluzione e ottieni feedback su cosa migliorare per allinearti al mercato.',
-      icon: 'rocket_launch',
+      icon: 'trending_up',
       color: '#057642',
       route: '/startup-validator',
       comingSoon: true
@@ -322,7 +367,7 @@ export class HomepageComponent {
       id: 'video-analyzer',
       title: 'Analisi Tema Video',
       description: 'Analizza il tema del tuo video YouTube o TikTok. Scopri se il contenuto è allineato con quello che cerca il pubblico e ricevi suggerimenti per migliorare engagement.',
-      icon: 'videocam',
+      icon: 'play_circle',
       color: '#b24020',
       route: '/video-analyzer',
       comingSoon: true
@@ -331,7 +376,7 @@ export class HomepageComponent {
       id: 'message-validator',
       title: 'Validazione Messaggio',
       description: 'Valida se il tuo messaggio di marketing o comunicazione risuona con il tuo target. Ottieni feedback su chiarezza, valore percepito e call to action.',
-      icon: 'campaign',
+      icon: 'chat_bubble',
       color: '#915907',
       route: '/message-validator',
       comingSoon: true
@@ -344,6 +389,10 @@ export class HomepageComponent {
     if (!tool.comingSoon) {
       this.router.navigate([tool.route]);
     }
+  }
+
+  getIconGradient(color: string): string {
+    return `linear-gradient(135deg, ${color}15 0%, ${color}25 100%)`;
   }
 }
 
