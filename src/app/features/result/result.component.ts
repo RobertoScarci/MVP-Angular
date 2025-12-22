@@ -224,7 +224,7 @@ export class ResultComponent implements OnInit {
     this.scoreEnabled = state.scoreEnabled;
 
     if (!this.generatedBio) {
-      this.router.navigate(['/step/role']);
+      this.router.navigate(['/bio-linkedin/step/role']);
     }
   }
 
@@ -256,12 +256,12 @@ export class ResultComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/step/goal']);
+    this.router.navigate(['/bio-linkedin/step/goal']);
   }
 
   startOver(): void {
     this.stateService.reset();
-    this.router.navigate(['/step/role']);
+    this.router.navigate(['/']);
   }
 }
 
