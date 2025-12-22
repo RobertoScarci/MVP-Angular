@@ -14,6 +14,7 @@ import { StepGoalComponent } from './features/wizard/steps/step-goal/step-goal.c
 import { ResultComponent } from './features/result/result.component';
 import { ChecklistComponent } from './features/result/checklist/checklist.component';
 import { WarningsComponent } from './features/result/warnings/warnings.component';
+import { ProgressIndicatorComponent } from './features/wizard/progress-indicator/progress-indicator.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -52,7 +53,8 @@ const routes: Routes = [
     StepGoalComponent,
     ResultComponent,
     ChecklistComponent,
-    WarningsComponent
+    WarningsComponent,
+    ProgressIndicatorComponent
   ],
   imports: [
     BrowserModule,
