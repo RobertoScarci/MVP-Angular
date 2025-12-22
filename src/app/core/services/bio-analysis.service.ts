@@ -74,37 +74,135 @@ export class BioAnalysisService {
   private generateWhoYouAre(role: string, target: string): string {
     if (!role) return '';
     
-    let bio = role;
+    // Template più sofisticati e variati
+    const templates = [
+      `${role}${target ? ` specializzato nel supportare ${target}` : ''}`,
+      `${role}${target ? ` con focus su ${target}` : ''}`,
+      `${role}${target ? ` che trasforma le sfide di ${target} in opportunità` : ''}`,
+      `${role}${target ? ` dedicato a ${target}` : ''}`,
+      `${role}${target ? ` che accompagna ${target} nella crescita digitale` : ''}`
+    ];
     
-    if (target) {
-      bio += ` che lavora con ${target}`;
-    }
-    
-    return bio + '.';
+    const selected = templates[Math.floor(Math.random() * templates.length)];
+    return this.capitalizeFirst(selected) + '.';
   }
 
   private generateValueProposition(role: string, target: string, activity: string): string {
     if (!activity) return '';
     
-    let proposition = activity;
+    // Analizza l'attività per estrarre verbi d'azione e risultati
+    const activityLower = activity.toLowerCase();
     
-    if (target) {
-      proposition += ` per ${target}`;
+    // Verbi d'azione trovati nell'attività
+    const foundVerbs = this.actionVerbs.filter(verb => 
+      activityLower.includes(verb.toLowerCase())
+    );
+    
+    // Template più sofisticati basati sul contenuto
+    let proposition = '';
+    
+    if (foundVerbs.length > 0) {
+      // Se ci sono verbi d'azione, costruisci una proposizione più strutturata
+      const verb = foundVerbs[0];
+      const activityCleaned = this.enhanceActivity(activity, verb);
+      
+      if (target) {
+        const valueTemplates = [
+          `${activityCleaned}, aiutando ${target} a raggiungere risultati concreti`,
+          `${activityCleaned}. Il mio obiettivo è supportare ${target} nel loro percorso di crescita`,
+          `${activityCleaned}, trasformando le esigenze di ${target} in soluzioni efficaci`,
+          `${activityCleaned}. Lavoro con ${target} per creare valore duraturo`,
+          `${activityCleaned}, guidando ${target} verso il successo attraverso soluzioni innovative`
+        ];
+        proposition = valueTemplates[Math.floor(Math.random() * valueTemplates.length)];
+      } else {
+        proposition = activityCleaned;
+      }
+    } else {
+      // Se non ci sono verbi d'azione espliciti, aggiungili
+      const enhancedActivity = this.addActionVerb(activity);
+      if (target) {
+        proposition = `${enhancedActivity} per ${target}`;
+      } else {
+        proposition = enhancedActivity;
+      }
     }
     
-    return proposition + '.';
+    return this.capitalizeFirst(proposition) + '.';
+  }
+
+  private enhanceActivity(activity: string, verb: string): string {
+    // Rimuovi ripetizioni e migliora la struttura
+    let enhanced = activity.trim();
+    
+    // Rimuovi punti finali multipli
+    enhanced = enhanced.replace(/\.+$/, '');
+    
+    // Se l'attività inizia già con il verbo, mantienila
+    // Altrimenti assicurati che abbia un verbo d'azione
+    if (!enhanced.toLowerCase().startsWith(verb.toLowerCase())) {
+      // Aggiungi il verbo se manca all'inizio
+      if (!this.actionVerbs.some(v => enhanced.toLowerCase().startsWith(v.toLowerCase()))) {
+        enhanced = `${verb} ${enhanced.toLowerCase()}`;
+      }
+    }
+    
+    return enhanced;
+  }
+
+  private addActionVerb(activity: string): string {
+    // Aggiungi un verbo d'azione appropriato se manca
+    const activityLower = activity.toLowerCase();
+    
+    // Verbi appropriati per diversi contesti
+    if (activityLower.includes('sviluppo') || activityLower.includes('codice') || activityLower.includes('applicazione')) {
+      return `Sviluppo ${activity}`;
+    }
+    if (activityLower.includes('marketing') || activityLower.includes('comunicazione') || activityLower.includes('brand')) {
+      return `Creo strategie di ${activity}`;
+    }
+    if (activityLower.includes('consulenza') || activityLower.includes('consulente')) {
+      return `Offro consulenza per ${activity}`;
+    }
+    if (activityLower.includes('design') || activityLower.includes('ui') || activityLower.includes('ux')) {
+      return `Progetto ${activity}`;
+    }
+    
+    // Default: aggiungi un verbo generico ma efficace
+    return `Aiuto le aziende attraverso ${activity}`;
+  }
+
+  private capitalizeFirst(text: string): string {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
   private generateCallToAction(goal: string, target: string): string {
     if (!goal) return '';
     
-    const ctaMap: Record<string, string> = {
-      'lavoro': 'Aperto a nuove opportunità di lavoro.',
-      'clienti': 'Contattami per discutere come posso aiutarti.',
-      'networking': 'Connessioni aperte per networking e collaborazioni.'
+    const ctaMap: Record<string, string[]> = {
+      'lavoro': [
+        'Aperto a nuove opportunità che mi permettano di fare la differenza.',
+        'In cerca di progetti stimolanti dove poter applicare le mie competenze.',
+        'Disponibile per nuove sfide professionali in team dinamici e innovativi.',
+        'Aperto a collaborazioni che valorizzino il mio contributo e la mia crescita.'
+      ],
+      'clienti': [
+        `Contattami per scoprire come posso aiutare ${target || 'la tua azienda'} a raggiungere i suoi obiettivi.`,
+        'Scrivimi per una consulenza personalizzata e soluzioni su misura.',
+        'Pronto a discutere come possiamo lavorare insieme per ottenere risultati concreti.',
+        'Contattami per esplorare come possiamo creare valore insieme.'
+      ],
+      'networking': [
+        'Aperto a connessioni significative e collaborazioni che portino valore reciproco.',
+        'Sempre interessato a conoscere professionisti con cui condividere idee e progetti.',
+        'Connessioni aperte per networking costruttivo e opportunità di crescita.',
+        'Pronto a connettermi con chi condivide la passione per l\'innovazione e l\'eccellenza.'
+      ]
     };
     
-    return ctaMap[goal] || 'Contattami per saperne di più.';
+    const ctas = ctaMap[goal] || ['Contattami per saperne di più.'];
+    return ctas[Math.floor(Math.random() * ctas.length)];
   }
 
   private checkClarity(bio: GeneratedBio, warnings: string[], suggestions: string[]): boolean {
