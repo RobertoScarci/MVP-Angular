@@ -33,7 +33,7 @@ import { BioAnalysisService } from '@core/services/bio-analysis.service';
               Indietro
             </button>
             <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-              Genera Bio
+              <span>Genera Bio</span>
               <mat-icon>check_circle</mat-icon>
             </button>
           </div>
@@ -77,6 +77,13 @@ import { BioAnalysisService } from '@core/services/bio-analysis.service';
 
     button mat-icon {
       margin-left: 8px;
+      vertical-align: middle;
+    }
+    
+    button[type="submit"] {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   `]
 })
@@ -117,12 +124,12 @@ export class StepGoalComponent implements OnInit {
       this.stateService.setGeneratedBio(bio);
       this.stateService.setAnalysis(analysis);
       
-      this.router.navigate(['/result']);
+      this.router.navigate(['/bio-linkedin/result']);
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/step/activity']);
+    this.router.navigate(['/bio-linkedin/step/activity']);
   }
 }
 

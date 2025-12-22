@@ -28,7 +28,7 @@ import { StateService } from '@core/services/state.service';
 
           <div class="step-actions">
             <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-              Avanti
+              <span>Avanti</span>
               <mat-icon>arrow_forward</mat-icon>
             </button>
           </div>
@@ -70,8 +70,10 @@ import { StateService } from '@core/services/state.service';
       gap: 12px;
     }
 
-    button mat-icon {
-      margin-left: 8px;
+    button[type="submit"] {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   `]
 })
@@ -95,7 +97,7 @@ export class StepRoleComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       this.stateService.updateFormData({ role: this.form.value.role });
-      this.router.navigate(['/step/target']);
+      this.router.navigate(['/bio-linkedin/step/target']);
     }
   }
 }

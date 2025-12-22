@@ -32,7 +32,7 @@ import { StateService } from '@core/services/state.service';
               Indietro
             </button>
             <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-              Avanti
+              <span>Avanti</span>
               <mat-icon>arrow_forward</mat-icon>
             </button>
           </div>
@@ -74,8 +74,10 @@ import { StateService } from '@core/services/state.service';
       gap: 12px;
     }
 
-    button mat-icon {
-      margin-left: 8px;
+    button[type="submit"] {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   `]
 })
@@ -99,12 +101,12 @@ export class StepTargetComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       this.stateService.updateFormData({ target: this.form.value.target });
-      this.router.navigate(['/step/activity']);
+      this.router.navigate(['/bio-linkedin/step/activity']);
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/step/role']);
+    this.router.navigate(['/bio-linkedin/step/role']);
   }
 }
 
