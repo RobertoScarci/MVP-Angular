@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StateService } from '@core/services/state.service';
+import { ValidationService } from '@core/services/validation.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
@@ -16,7 +17,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
       <div class="card" [@cardAnimation]>
         <div class="step-header">
           <div class="step-icon" style="background: linear-gradient(135deg, #057642 0%, #034a2e 100%);">
-            <mat-icon>groups</mat-icon>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
           </div>
           <h2>Per chi lavori?</h2>
         </div>
@@ -25,15 +28,41 @@ import { trigger, transition, style, animate } from '@angular/animations';
         </p>
         
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="outline" class="full-width" [class.focused]="isFieldFocused">
+          <mat-form-field appearance="outline" class="full-width" [class.focused]="isFieldFocused" [class.has-errors]="hasValidationErrors" [class.has-suggestions]="hasSuggestions">
             <mat-label>Target</mat-label>
             <input 
               matInput 
               formControlName="target" 
               placeholder="Es. startup tech e PMI digitali"
               (focus)="isFieldFocused = true"
-              (blur)="isFieldFocused = false">
-            <mat-hint>Massimo 150 caratteri</mat-hint>
+              (blur)="isFieldFocused = false"
+              (input)="onTargetInput()">
+            <mat-hint>
+              <span *ngIf="validationResult">{{ validationResult.score }}/100</span>
+              <span *ngIf="!validationResult">Massimo 150 caratteri</span>
+            </mat-hint>
+            
+            <!-- Errori di validazione -->
+            <div class="validation-errors" *ngIf="validationResult && validationResult.errors.length > 0">
+              <div *ngFor="let error of validationResult.errors" class="error-item">
+                <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>{{ error }}</span>
+              </div>
+            </div>
+            
+            <!-- Suggerimenti -->
+            <div class="validation-suggestions" *ngIf="validationResult && validationResult.suggestions.length > 0">
+              <div *ngFor="let suggestion of validationResult.suggestions" class="suggestion-item">
+                <svg class="suggestion-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                </svg>
+                <span>{{ suggestion }}</span>
+              </div>
+            </div>
+            
+            <!-- Errori standard -->
             <mat-error *ngIf="form.get('target')?.hasError('required')">
               Il target è obbligatorio
             </mat-error>
@@ -98,11 +127,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
       box-shadow: 0 4px 12px rgba(5, 118, 66, 0.3);
     }
 
-    .step-icon mat-icon {
-      color: white;
-      font-size: 28px;
+    .step-icon svg {
       width: 28px;
       height: 28px;
+      color: white;
     }
 
     h2 {
@@ -211,6 +239,77 @@ import { trigger, transition, style, animate } from '@angular/animations';
         transform: translateY(0) scale(1);
       }
     }
+
+    /* Validation Styles */
+    mat-form-field.has-errors ::ng-deep .mat-form-field-outline {
+      color: #b24020 !important;
+    }
+
+    mat-form-field.has-suggestions ::ng-deep .mat-form-field-outline {
+      color: #0a66c2 !important;
+    }
+
+    .validation-errors {
+      margin-top: 8px;
+      padding: 12px;
+      background: #fff4f0;
+      border-left: 3px solid #b24020;
+      border-radius: 4px;
+    }
+
+    .error-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #b24020;
+    }
+
+    .error-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .error-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .validation-suggestions {
+      margin-top: 8px;
+      padding: 12px;
+      background: #f0f7ff;
+      border-left: 3px solid #0a66c2;
+      border-radius: 4px;
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #0a66c2;
+    }
+
+    .suggestion-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .suggestion-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    mat-hint {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    mat-hint span {
+      font-weight: 600;
+    }
   `],
   animations: [
     trigger('cardAnimation', [
@@ -224,19 +323,44 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class StepTargetComponent implements OnInit {
   form!: FormGroup;
   isFieldFocused = false;
+  validationResult: any = null;
+  hasValidationErrors = false;
+  hasSuggestions = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private stateService: StateService
+    private stateService: StateService,
+    private validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
     const currentData = this.stateService.getCurrentState().formData;
     
     this.form = this.fb.group({
-      target: [currentData.target || '', [Validators.required, Validators.maxLength(150)]]
+      target: [currentData.target || '', [
+        Validators.required, 
+        Validators.maxLength(150),
+        this.validationService.targetValidator
+      ]]
     });
+
+    if (currentData.target) {
+      this.onTargetInput();
+    }
+  }
+
+  onTargetInput(): void {
+    const value = this.form.get('target')?.value || '';
+    if (value.trim().length > 0) {
+      this.validationResult = this.validationService.validateTarget(value);
+      this.hasValidationErrors = this.validationResult.errors.length > 0;
+      this.hasSuggestions = this.validationResult.suggestions.length > 0;
+    } else {
+      this.validationResult = null;
+      this.hasValidationErrors = false;
+      this.hasSuggestions = false;
+    }
   }
 
   onSubmit(): void {

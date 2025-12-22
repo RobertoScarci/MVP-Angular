@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StateService } from '@core/services/state.service';
+import { ValidationService } from '@core/services/validation.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
@@ -16,7 +17,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
       <div class="card" [@cardAnimation]>
         <div class="step-header">
           <div class="step-icon" style="background: linear-gradient(135deg, #b24020 0%, #8a3018 100%);">
-            <mat-icon>work_outline</mat-icon>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/>
+            </svg>
           </div>
           <h2>Cosa fai concretamente?</h2>
         </div>
@@ -25,7 +28,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
         </p>
         
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="outline" class="full-width" [class.focused]="isFieldFocused">
+          <mat-form-field appearance="outline" class="full-width" [class.focused]="isFieldFocused" [class.has-errors]="hasValidationErrors" [class.has-suggestions]="hasSuggestions">
             <mat-label>Attività principali</mat-label>
             <textarea 
               matInput 
@@ -33,8 +36,34 @@ import { trigger, transition, style, animate } from '@angular/animations';
               rows="4" 
               placeholder="Descrivi cosa fai e il valore che porti..."
               (focus)="isFieldFocused = true"
-              (blur)="isFieldFocused = false"></textarea>
-            <mat-hint [class.warning]="characterCount < 50">{{ characterCount }}/500 caratteri</mat-hint>
+              (blur)="isFieldFocused = false"
+              (input)="onActivityInput()"></textarea>
+            <mat-hint [class.warning]="characterCount < 50">
+              <span *ngIf="validationResult">{{ validationResult.score }}/100</span>
+              <span *ngIf="!validationResult">{{ characterCount }}/500 caratteri</span>
+            </mat-hint>
+            
+            <!-- Errori di validazione -->
+            <div class="validation-errors" *ngIf="validationResult && validationResult.errors.length > 0">
+              <div *ngFor="let error of validationResult.errors" class="error-item">
+                <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>{{ error }}</span>
+              </div>
+            </div>
+            
+            <!-- Suggerimenti -->
+            <div class="validation-suggestions" *ngIf="validationResult && validationResult.suggestions.length > 0">
+              <div *ngFor="let suggestion of validationResult.suggestions" class="suggestion-item">
+                <svg class="suggestion-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                </svg>
+                <span>{{ suggestion }}</span>
+              </div>
+            </div>
+            
+            <!-- Errori standard -->
             <mat-error *ngIf="form.get('activity')?.hasError('required')">
               Le attività sono obbligatorie
             </mat-error>
@@ -102,11 +131,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
       box-shadow: 0 4px 12px rgba(178, 64, 32, 0.3);
     }
 
-    .step-icon mat-icon {
-      color: white;
-      font-size: 28px;
+    .step-icon svg {
       width: 28px;
       height: 28px;
+      color: white;
     }
 
     h2 {
@@ -219,6 +247,77 @@ import { trigger, transition, style, animate } from '@angular/animations';
         transform: translateY(0) scale(1);
       }
     }
+
+    /* Validation Styles */
+    mat-form-field.has-errors ::ng-deep .mat-form-field-outline {
+      color: #b24020 !important;
+    }
+
+    mat-form-field.has-suggestions ::ng-deep .mat-form-field-outline {
+      color: #0a66c2 !important;
+    }
+
+    .validation-errors {
+      margin-top: 8px;
+      padding: 12px;
+      background: #fff4f0;
+      border-left: 3px solid #b24020;
+      border-radius: 4px;
+    }
+
+    .error-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #b24020;
+    }
+
+    .error-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .error-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .validation-suggestions {
+      margin-top: 8px;
+      padding: 12px;
+      background: #f0f7ff;
+      border-left: 3px solid #0a66c2;
+      border-radius: 4px;
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #0a66c2;
+    }
+
+    .suggestion-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .suggestion-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    mat-hint {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    mat-hint span {
+      font-weight: 600;
+    }
   `],
   animations: [
     trigger('cardAnimation', [
@@ -232,11 +331,15 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class StepActivityComponent implements OnInit {
   form!: FormGroup;
   isFieldFocused = false;
+  validationResult: any = null;
+  hasValidationErrors = false;
+  hasSuggestions = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private stateService: StateService
+    private stateService: StateService,
+    private validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
@@ -246,13 +349,31 @@ export class StepActivityComponent implements OnInit {
       activity: [currentData.activity || '', [
         Validators.required,
         Validators.minLength(50),
-        Validators.maxLength(500)
+        Validators.maxLength(500),
+        this.validationService.activityValidator
       ]]
     });
+
+    if (currentData.activity) {
+      this.onActivityInput();
+    }
   }
 
   get characterCount(): number {
     return this.form.get('activity')?.value?.length || 0;
+  }
+
+  onActivityInput(): void {
+    const value = this.form.get('activity')?.value || '';
+    if (value.trim().length > 0) {
+      this.validationResult = this.validationService.validateActivity(value);
+      this.hasValidationErrors = this.validationResult.errors.length > 0;
+      this.hasSuggestions = this.validationResult.suggestions.length > 0;
+    } else {
+      this.validationResult = null;
+      this.hasValidationErrors = false;
+      this.hasSuggestions = false;
+    }
   }
 
   onSubmit(): void {
