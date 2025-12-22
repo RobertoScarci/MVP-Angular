@@ -47,9 +47,11 @@ import { trigger, transition, style, animate } from '@angular/animations';
           </mat-form-field>
 
           <div class="step-actions">
-            <button mat-button type="button" (click)="goBack()">
-              <mat-icon>arrow_back</mat-icon>
-              Indietro
+            <button mat-button type="button" (click)="goBack()" class="back-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="arrow-icon">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+              </svg>
+              <span>Indietro</span>
             </button>
             <button 
               mat-raised-button 
@@ -59,7 +61,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
               [class.pulse]="form.valid"
               class="primary-button">
               <span>Avanti</span>
-              <mat-icon>arrow_forward</mat-icon>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="arrow-icon">
+                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+              </svg>
             </button>
           </div>
         </form>
@@ -163,6 +167,16 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
     button[mat-button]:hover {
       background: rgba(178, 64, 32, 0.08);
+    }
+
+    .back-button {
+      flex-direction: row-reverse;
+    }
+
+    .arrow-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
     }
 
     .primary-button {
