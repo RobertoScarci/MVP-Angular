@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { HomepageComponent } from './features/homepage/homepage.component';
 import { WizardComponent } from './features/wizard/wizard.component';
 import { StepRoleComponent } from './features/wizard/steps/step-role/step-role.component';
 import { StepTargetComponent } from './features/wizard/steps/step-target/step-target.component';
@@ -25,18 +26,25 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/step/role', pathMatch: 'full' },
-  { path: 'step/role', component: StepRoleComponent },
-  { path: 'step/target', component: StepTargetComponent },
-  { path: 'step/activity', component: StepActivityComponent },
-  { path: 'step/goal', component: StepGoalComponent },
-  { path: 'result', component: ResultComponent },
-  { path: '**', redirectTo: '/step/role' }
+  { path: '', component: HomepageComponent },
+  { path: 'bio-linkedin/step/role', component: StepRoleComponent },
+  { path: 'bio-linkedin/step/target', component: StepTargetComponent },
+  { path: 'bio-linkedin/step/activity', component: StepActivityComponent },
+  { path: 'bio-linkedin/step/goal', component: StepGoalComponent },
+  { path: 'bio-linkedin/result', component: ResultComponent },
+  // Redirect legacy routes
+  { path: 'step/role', redirectTo: '/bio-linkedin/step/role', pathMatch: 'full' },
+  { path: 'step/target', redirectTo: '/bio-linkedin/step/target', pathMatch: 'full' },
+  { path: 'step/activity', redirectTo: '/bio-linkedin/step/activity', pathMatch: 'full' },
+  { path: 'step/goal', redirectTo: '/bio-linkedin/step/goal', pathMatch: 'full' },
+  { path: 'result', redirectTo: '/bio-linkedin/result', pathMatch: 'full' },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomepageComponent,
     WizardComponent,
     StepRoleComponent,
     StepTargetComponent,
