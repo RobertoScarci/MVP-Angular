@@ -54,7 +54,30 @@ interface Tool {
             >
               <div class="tool-icon-wrapper">
                 <div class="tool-icon" [style.background]="getIconGradient(tool.color)">
-                  <mat-icon [style.color]="tool.color" class="tool-icon-svg">{{ tool.icon }}</mat-icon>
+                  <!-- LinkedIn Logo -->
+                  <div *ngIf="tool.id === 'linkedin-bio'" class="linkedin-logo">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </div>
+                  <!-- Startup Logo -->
+                  <div *ngIf="tool.id === 'startup-validator'" class="startup-logo">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2.81 14.12L5.64 11.29L8.17 10.79C11.39 6.41 17.55 4.22 19.78 4.22C19.78 6.45 17.59 12.61 13.21 15.83L12.71 18.36L9.88 21.19C9.34 21.73 8.5 21.73 7.96 21.19L2.81 16.04C2.27 15.5 2.27 14.66 2.81 14.12M7.96 19.76L11.29 16.43L12.5 13.5L13.5 12.5L16.43 11.29L19.76 7.96L16.43 4.63L13.5 5.84L12.5 6.84L11.29 9.77L7.96 13.1L4.63 9.77L7.96 6.44L10.89 7.65L11.89 8.65L13.1 11.58L16.43 8.25L19.76 11.58L16.43 14.91L13.5 13.7L12.5 12.7L11.29 9.77L7.96 13.1L4.63 16.43L7.96 19.76Z"/>
+                    </svg>
+                  </div>
+                  <!-- Video Logo -->
+                  <div *ngIf="tool.id === 'video-analyzer'" class="video-logo">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                    </svg>
+                  </div>
+                  <!-- Message Logo -->
+                  <div *ngIf="tool.id === 'message-validator'" class="message-logo">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4C22,2.89 21.1,2 20,2M20,16H6L4,18V4H20V16Z"/>
+                    </svg>
+                  </div>
                 </div>
               </div>
               <h3 class="tool-title">{{ tool.title }}</h3>
@@ -244,6 +267,61 @@ interface Tool {
       position: relative;
       z-index: 1;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    .linkedin-logo,
+    .startup-logo,
+    .video-logo,
+    .message-logo {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .linkedin-logo svg,
+    .startup-logo svg,
+    .video-logo svg,
+    .message-logo svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    }
+
+    .linkedin-logo {
+      color: #0a66c2;
+    }
+
+    .linkedin-logo svg {
+      filter: drop-shadow(0 2px 4px rgba(10, 102, 194, 0.3));
+    }
+
+    .startup-logo {
+      color: #057642;
+    }
+
+    .startup-logo svg {
+      filter: drop-shadow(0 2px 4px rgba(5, 118, 66, 0.3));
+    }
+
+    .video-logo {
+      color: #b24020;
+    }
+
+    .video-logo svg {
+      filter: drop-shadow(0 2px 4px rgba(178, 64, 32, 0.3));
+    }
+
+    .message-logo {
+      color: #915907;
+    }
+
+    .message-logo svg {
+      filter: drop-shadow(0 2px 4px rgba(145, 89, 7, 0.3));
     }
 
     .tool-title {
