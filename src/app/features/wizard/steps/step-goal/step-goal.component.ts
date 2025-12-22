@@ -17,7 +17,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
       <div class="card" [@cardAnimation]>
         <div class="step-header">
           <div class="step-icon" style="background: linear-gradient(135deg, #915907 0%, #6b4205 100%);">
-            <mat-icon>flag</mat-icon>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+            </svg>
           </div>
           <h2>Qual è il tuo obiettivo su LinkedIn?</h2>
         </div>
@@ -33,19 +35,25 @@ import { trigger, transition, style, animate } from '@angular/animations';
               (openedChange)="isFieldFocused = $event">
               <mat-option value="lavoro">
                 <div class="option-content">
-                  <mat-icon>work</mat-icon>
+                  <svg class="option-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                  </svg>
                   <span>Trovare nuove opportunità di lavoro</span>
                 </div>
               </mat-option>
               <mat-option value="clienti">
                 <div class="option-content">
-                  <mat-icon>handshake</mat-icon>
+                  <svg class="option-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.34 9.32l-1.41-1.41-2.12 2.12 4.24 4.24-7.07 7.07-4.24-4.24-4.24 4.24-1.41-1.41 4.24-4.24-2.12-2.12-1.41 1.41-1.41-1.41 2.12-2.12-1.41-1.41-1.42 1.41-1.41-1.41 1.41-1.41-1.41-1.42 1.41-1.41 1.41 1.41 1.41-1.41 1.41 1.41-1.41 1.41 2.12 2.12 1.41-1.41 1.41 1.41-2.12 2.12 1.41 1.41 1.41-1.41 1.41 1.41-1.41 1.41zm-7.76 5.66l4.24-4.24 1.41 1.41-4.24 4.24-1.41-1.41z"/>
+                  </svg>
                   <span>Trovare nuovi clienti</span>
                 </div>
               </mat-option>
               <mat-option value="networking">
                 <div class="option-content">
-                  <mat-icon>people</mat-icon>
+                  <svg class="option-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                  </svg>
                   <span>Networking e collaborazioni</span>
                 </div>
               </mat-option>
@@ -111,11 +119,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
       box-shadow: 0 4px 12px rgba(145, 89, 7, 0.3);
     }
 
-    .step-icon mat-icon {
-      color: white;
-      font-size: 28px;
+    .step-icon svg {
       width: 28px;
       height: 28px;
+      color: white;
     }
 
     h2 {
@@ -162,8 +169,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
       gap: 12px;
     }
 
-    .option-content mat-icon {
-      font-size: 20px;
+    .option-icon {
       width: 20px;
       height: 20px;
       color: #666666;
