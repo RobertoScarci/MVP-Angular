@@ -16,6 +16,7 @@ export class ValidationService {
   private readonly MAX_WORDS_ROLE = 8;
   private readonly MAX_WORDS_TARGET = 10;
   private readonly MAX_WORDS_ACTIVITY = 50;
+  private readonly MIN_LETTER_RATIO = 0.65;
 
   // Pattern per parole italiane comuni (verbi, nomi, aggettivi)
   private readonly ITALIAN_WORD_PATTERN = /^[a-zA-Zàèéìíîòóùú]+$/;
@@ -34,6 +35,18 @@ export class ValidationService {
     '123', 'aaa', 'bbb', 'ccc', 'lorem', 'ipsum'
   ];
 
+  // Parole troppo generiche
+  private readonly GENERIC_TERMS = [
+    'professionista', 'professionale', 'lavoratore', 'persona', 'azienda', 'clienti',
+    'gente', 'persone', 'team', 'servizi', 'prodotto'
+  ];
+
+  // Indicazioni di valore/risultati
+  private readonly IMPACT_WORDS = [
+    'risultati', 'crescita', 'scalare', 'ottimizzazione', 'efficienza',
+    'conversioni', 'funnel', 'ricavi', 'fatturato', 'kpi', 'migliorare', 'aumentare'
+  ];
+
   validateRole(role: string): ValidationResult {
     const errors: string[] = [];
     const suggestions: string[] = [];
@@ -43,8 +56,18 @@ export class ValidationService {
       return { isValid: false, errors: ['Il ruolo è obbligatorio'], suggestions: [], score: 0 };
     }
 
-    const trimmed = role.trim();
+    const trimmed = this.normalizeText(role);
     const words = trimmed.split(/\s+/).filter(w => w.length > 0);
+
+    if (!this.hasEnoughLetters(trimmed)) {
+      errors.push('Troppi numeri o simboli: inserisci un ruolo con parole chiare');
+      score -= 25;
+    }
+
+    if (this.isAllCaps(trimmed)) {
+      suggestions.push('Usa maiuscole solo dove serve (es. acronimi), evita tutto maiuscolo');
+      score -= 5;
+    }
 
     // Controllo lunghezza
     if (trimmed.length < 3) {
@@ -55,6 +78,12 @@ export class ValidationService {
     if (trimmed.length > 100) {
       errors.push('Il ruolo è troppo lungo (massimo 100 caratteri)');
       score -= 20;
+    }
+
+    // Controllo numeri
+    if (this.containsNumbers(trimmed)) {
+      suggestions.push('Evita numeri nel ruolo, a meno che non siano parte di una certificazione');
+      score -= 10;
     }
 
     if (words.length < this.MIN_WORDS) {
@@ -98,6 +127,12 @@ export class ValidationService {
       score -= 30;
     }
 
+    // Controllo genericità
+    if (this.isTooGeneric(trimmed)) {
+      suggestions.push('Rendi il ruolo più specifico (es. settore, stack, industry)');
+      score -= 10;
+    }
+
     // Controllo presenza di almeno una parola valida
     const validWords = words.filter(w => this.isValidWord(w));
     if (validWords.length === 0) {
@@ -130,8 +165,18 @@ export class ValidationService {
       return { isValid: false, errors: ['Il target è obbligatorio'], suggestions: [], score: 0 };
     }
 
-    const trimmed = target.trim();
+    const trimmed = this.normalizeText(target);
     const words = trimmed.split(/\s+/).filter(w => w.length > 0);
+
+    if (!this.hasEnoughLetters(trimmed)) {
+      errors.push('Descrivi il target con parole, non solo numeri o simboli');
+      score -= 25;
+    }
+
+    if (this.isAllCaps(trimmed)) {
+      suggestions.push('Evita il testo tutto maiuscolo, rende la lettura difficile');
+      score -= 5;
+    }
 
     // Controllo lunghezza
     if (trimmed.length < 5) {
@@ -142,6 +187,12 @@ export class ValidationService {
     if (trimmed.length > 150) {
       errors.push('Il target è troppo lungo (massimo 150 caratteri)');
       score -= 20;
+    }
+
+    // Controllo numeri
+    if (this.containsNumbers(trimmed)) {
+      suggestions.push('Specifica il target con parole (es. "PMI B2B") evitando numeri isolati');
+      score -= 10;
     }
 
     if (words.length < this.MIN_WORDS) {
@@ -191,6 +242,11 @@ export class ValidationService {
       suggestions.push('Ottimo! Hai usato termini professionali appropriati');
     }
 
+    if (this.isTooGeneric(trimmed)) {
+      suggestions.push('Rendi il target più specifico (settore, dimensione, geografia, bisogni)');
+      score -= 10;
+    }
+
     const isValid = errors.length === 0;
     score = Math.max(0, Math.min(100, score));
 
@@ -206,8 +262,18 @@ export class ValidationService {
       return { isValid: false, errors: ['Le attività sono obbligatorie'], suggestions: [], score: 0 };
     }
 
-    const trimmed = activity.trim();
+    const trimmed = this.normalizeText(activity);
     const words = trimmed.split(/\s+/).filter(w => w.length > 0);
+
+    if (!this.hasEnoughLetters(trimmed)) {
+      errors.push('Descrivi le attività con parole, non solo numeri o simboli');
+      score -= 25;
+    }
+
+    if (this.isAllCaps(trimmed)) {
+      suggestions.push('Evita il testo tutto maiuscolo, preferisci frase normale');
+      score -= 5;
+    }
 
     // Controllo lunghezza
     if (trimmed.length < 50) {
@@ -296,6 +362,12 @@ export class ValidationService {
       suggestions.push('Lunghezza ottimale per una descrizione professionale');
     }
 
+    // Incentiva l'uso di impatto/risultati
+    if (!this.containsImpactTerms(trimmed)) {
+      suggestions.push('Aggiungi risultati o impatto (es. conversioni, crescita, efficienza) per aumentare credibilità');
+      score -= 10;
+    }
+
     const isValid = errors.length === 0;
     score = Math.max(0, Math.min(100, score));
 
@@ -363,6 +435,36 @@ export class ValidationService {
   private containsProfessionalTerms(text: string): boolean {
     const lowerText = text.toLowerCase();
     return this.PROFESSIONAL_TERMS.some(term => lowerText.includes(term.toLowerCase()));
+  }
+
+  private containsImpactTerms(text: string): boolean {
+    const lowerText = text.toLowerCase();
+    return this.IMPACT_WORDS.some(term => lowerText.includes(term));
+  }
+
+  private normalizeText(text: string): string {
+    return text.replace(/\s+/g, ' ').trim();
+  }
+
+  private hasEnoughLetters(text: string): boolean {
+    const letters = text.match(/[a-zA-Zàèéìíîòóùú]/g)?.length || 0;
+    const ratio = letters / Math.max(1, text.length);
+    return ratio >= this.MIN_LETTER_RATIO;
+  }
+
+  private containsNumbers(text: string): boolean {
+    return /\d/.test(text);
+  }
+
+  private isAllCaps(text: string): boolean {
+    const letters = text.match(/[A-ZÀ-Ú]/g)?.length || 0;
+    const lowercase = text.match(/[a-zà-ù]/g)?.length || 0;
+    return letters > 0 && lowercase === 0;
+  }
+
+  private isTooGeneric(text: string): boolean {
+    const lower = text.toLowerCase();
+    return this.GENERIC_TERMS.some(term => lower === term || lower.includes(term));
   }
 }
 
