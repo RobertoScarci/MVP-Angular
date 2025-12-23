@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StateService } from '@core/services/state.service';
 import { ValidationService } from '@core/services/validation.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-step-activity',
@@ -36,8 +38,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
               rows="4" 
               placeholder="Descrivi cosa fai e il valore che porti..."
               (focus)="isFieldFocused = true"
-              (blur)="isFieldFocused = false"
-              (input)="onActivityInput()"></textarea>
+              (blur)="isFieldFocused = false"></textarea>
             <mat-hint [class.warning]="characterCount < 50">
               <span *ngIf="validationResult">{{ validationResult.score }}/100</span>
               <span *ngIf="!validationResult">{{ characterCount }}/500 caratteri</span>
@@ -328,12 +329,13 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ]
 })
-export class StepActivityComponent implements OnInit {
+export class StepActivityComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   isFieldFocused = false;
   validationResult: any = null;
   hasValidationErrors = false;
   hasSuggestions = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -354,25 +356,23 @@ export class StepActivityComponent implements OnInit {
       ]]
     });
 
+    this.form.get('activity')?.valueChanges
+      .pipe(debounceTime(250), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(value => {
+        const val = value || '';
+        if (val.trim().length > 0) {
+          this.validationResult = this.validationService.validateActivity(val);
+          this.hasValidationErrors = this.validationResult.errors.length > 0;
+          this.hasSuggestions = this.validationResult.suggestions.length > 0;
+        } else {
+          this.validationResult = null;
+          this.hasValidationErrors = false;
+          this.hasSuggestions = false;
+        }
+      });
+
     if (currentData.activity) {
-      this.onActivityInput();
-    }
-  }
-
-  get characterCount(): number {
-    return this.form.get('activity')?.value?.length || 0;
-  }
-
-  onActivityInput(): void {
-    const value = this.form.get('activity')?.value || '';
-    if (value.trim().length > 0) {
-      this.validationResult = this.validationService.validateActivity(value);
-      this.hasValidationErrors = this.validationResult.errors.length > 0;
-      this.hasSuggestions = this.validationResult.suggestions.length > 0;
-    } else {
-      this.validationResult = null;
-      this.hasValidationErrors = false;
-      this.hasSuggestions = false;
+      this.form.get('activity')?.setValue(currentData.activity, { emitEvent: true });
     }
   }
 
@@ -385,6 +385,15 @@ export class StepActivityComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/bio-linkedin/step/target']);
+  }
+
+  get characterCount(): number {
+    return this.form.get('activity')?.value?.length || 0;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StateService } from '@core/services/state.service';
 import { ValidationService } from '@core/services/validation.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-step-role',
@@ -35,8 +37,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
                   formControlName="role" 
                   placeholder="Es. Senior Frontend Developer"
                   (focus)="isFieldFocused = true"
-                  (blur)="isFieldFocused = false"
-                  (input)="onRoleInput()">
+              (blur)="isFieldFocused = false">
                 <mat-hint>
                   <span *ngIf="validationResult">{{ validationResult.score }}/100</span>
                   <span *ngIf="!validationResult">Massimo 100 caratteri</span>
@@ -300,12 +301,13 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ]
 })
-export class StepRoleComponent implements OnInit {
+export class StepRoleComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   isFieldFocused = false;
   validationResult: any = null;
   hasValidationErrors = false;
   hasSuggestions = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -325,22 +327,24 @@ export class StepRoleComponent implements OnInit {
       ]]
     });
 
+    this.form.get('role')?.valueChanges
+      .pipe(debounceTime(250), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(value => {
+        const val = value || '';
+        if (val.trim().length > 0) {
+          this.validationResult = this.validationService.validateRole(val);
+          this.hasValidationErrors = this.validationResult.errors.length > 0;
+          this.hasSuggestions = this.validationResult.suggestions.length > 0;
+        } else {
+          this.validationResult = null;
+          this.hasValidationErrors = false;
+          this.hasSuggestions = false;
+        }
+      });
+
     // Validazione iniziale se c'è un valore
     if (currentData.role) {
-      this.onRoleInput();
-    }
-  }
-
-  onRoleInput(): void {
-    const value = this.form.get('role')?.value || '';
-    if (value.trim().length > 0) {
-      this.validationResult = this.validationService.validateRole(value);
-      this.hasValidationErrors = this.validationResult.errors.length > 0;
-      this.hasSuggestions = this.validationResult.suggestions.length > 0;
-    } else {
-      this.validationResult = null;
-      this.hasValidationErrors = false;
-      this.hasSuggestions = false;
+      this.form.get('role')?.setValue(currentData.role, { emitEvent: true });
     }
   }
 
@@ -349,6 +353,11 @@ export class StepRoleComponent implements OnInit {
       this.stateService.updateFormData({ role: this.form.value.role });
       this.router.navigate(['/bio-linkedin/step/target']);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 
