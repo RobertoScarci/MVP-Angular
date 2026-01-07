@@ -17,8 +17,8 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
           </div>
-          <h1 class="result-title">Bio Generata con Successo!</h1>
-          <p class="result-subtitle">Ecco la tua bio LinkedIn ottimizzata e l'analisi completa</p>
+          <h1 class="result-title">Bio Generata</h1>
+          <p class="result-subtitle">La tua bio LinkedIn è pronta</p>
         </div>
 
         <div class="card main-card" [@cardSlideIn]>
@@ -209,55 +209,45 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     /* Success Header */
     .success-header {
       text-align: center;
-      margin-bottom: 32px;
-      padding: 40px 24px;
-      background: #0a66c2;
-      border-radius: 16px;
+      margin-bottom: 40px;
+      padding: 32px 24px;
+      background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+      border-radius: 12px;
       color: white;
-      box-shadow: 0 4px 16px rgba(10, 102, 194, 0.2);
+      box-shadow: 0 2px 12px rgba(10, 102, 194, 0.15);
     }
 
     .success-icon-wrapper {
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .success-icon {
-      width: 64px;
-      height: 64px;
-      animation: bounce 1s ease-in-out infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      width: 48px;
+      height: 48px;
+      opacity: 0.95;
     }
 
     .result-title {
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 700;
-      margin: 0 0 8px 0;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 0 0 6px 0;
+      letter-spacing: -0.5px;
     }
 
     .result-subtitle {
-      font-size: 18px;
-      opacity: 0.95;
+      font-size: 16px;
+      opacity: 0.9;
       margin: 0;
+      font-weight: 400;
     }
 
     /* Main Card */
     .main-card {
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-      padding: 40px;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-    }
-
-    .main-card:hover {
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      transform: translateY(-2px);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 32px;
+      border: 1px solid #e9e5df;
     }
 
     /* Score Toggle */
@@ -278,17 +268,17 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .bio-section {
-      margin-bottom: 32px;
-      padding: 24px;
+      margin-bottom: 24px;
+      padding: 20px;
       background: #f9fafb;
-      border-radius: 12px;
-      border-left: 4px solid #0a66c2;
-      transition: all 0.3s ease;
+      border-radius: 8px;
+      border-left: 3px solid #0a66c2;
+      transition: all 0.2s ease;
     }
 
     .bio-section:hover {
-      transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background: #f3f2ef;
+      border-left-color: #004182;
     }
 
     .section-header {
@@ -299,44 +289,44 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .section-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
       background: #0a66c2;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(10, 102, 194, 0.15);
+      flex-shrink: 0;
     }
 
     .section-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       color: white;
     }
 
     .section-header h3 {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
       color: #000000;
       margin: 0;
     }
 
     .section-content p {
-      font-size: 17px;
-      line-height: 1.8;
-      color: #000000;
-      margin: 0 0 12px 0;
-      font-weight: 500;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #333333;
+      margin: 0;
+      font-weight: 400;
     }
 
 
     /* Full Bio */
     .bio-full {
-      margin-top: 40px;
-      padding: 32px;
+      margin-top: 32px;
+      padding: 24px;
       background: #f9fafb;
-      border-radius: 16px;
+      border-radius: 8px;
       border: 1px solid #e9e5df;
     }
 
@@ -352,9 +342,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .full-bio-header h3 {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 22px;
-      font-weight: 700;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 600;
       color: #0a66c2;
       margin: 0;
     }
@@ -399,20 +389,19 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     .bio-text {
       background: white;
       border: 1px solid #e9e5df;
-      border-radius: 12px;
-      padding: 24px;
-      font-size: 16px;
-      line-height: 1.8;
-      color: #000000;
+      border-radius: 8px;
+      padding: 20px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #333333;
       white-space: pre-wrap;
-      margin-bottom: 20px;
-      min-height: 120px;
-      transition: all 0.3s ease;
+      margin-bottom: 16px;
+      min-height: 100px;
+      transition: all 0.2s ease;
     }
 
     .bio-text:hover {
       border-color: #0a66c2;
-      box-shadow: 0 2px 8px rgba(10, 102, 194, 0.1);
     }
 
     .copy-btn {
@@ -450,9 +439,9 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     /* Score Section */
     .score-section {
       margin-top: 32px;
-      padding: 32px;
+      padding: 24px;
       background: #f9fafb;
-      border-radius: 16px;
+      border-radius: 8px;
       border: 1px solid #e9e5df;
     }
 
@@ -519,7 +508,7 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
     }
 
     .score-value {
-      font-size: 64px;
+      font-size: 56px;
       font-weight: 700;
       color: #0a66c2;
       line-height: 1;
