@@ -18,6 +18,14 @@ interface Tool {
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-content">
+          <div class="hero-logo">
+            <svg width="60" height="60" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="80" height="80" rx="16" fill="white" fill-opacity="0.2"/>
+              <path d="M25 25L35 55L45 25H50L40 60H30L20 25H25Z" fill="white"/>
+              <path d="M55 25H60V55H55V25Z" fill="white"/>
+              <path d="M60 25C62.2091 25 64 26.7909 64 29C64 31.2091 62.2091 33 60 33C57.7909 33 56 31.2091 56 29C56 26.7909 57.7909 25 60 25Z" fill="white"/>
+            </svg>
+          </div>
           <h1 class="hero-title">
             Valida le tue idee
           </h1>
@@ -145,6 +153,33 @@ interface Tool {
       margin: 0 auto;
       position: relative;
       z-index: 1;
+    }
+
+    .hero-logo {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+      animation: fadeInDown 0.5s ease-out;
+    }
+
+    .hero-logo svg {
+      opacity: 0.95;
+      transition: opacity 0.3s ease;
+    }
+
+    .hero-logo:hover svg {
+      opacity: 1;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .hero-title {
