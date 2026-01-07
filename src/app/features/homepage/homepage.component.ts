@@ -18,21 +18,11 @@ interface Tool {
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-content">
-          <div class="hero-logo">
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="80" height="80" rx="16" fill="white" fill-opacity="0.15"/>
-              <path d="M25 25L35 55L45 25H50L40 60H30L20 25H25Z" fill="white"/>
-              <path d="M55 25H60V55H55V25Z" fill="white"/>
-              <path d="M60 25C62.2091 25 64 26.7909 64 29C64 31.2091 62.2091 33 60 33C57.7909 33 56 31.2091 56 29C56 26.7909 57.7909 25 60 25Z" fill="white"/>
-            </svg>
-          </div>
           <h1 class="hero-title">
-            Valida le tue idee.<br>
-            <span class="highlight">Allineale con quello che vuole la gente.</span>
+            Valida le tue idee
           </h1>
           <p class="hero-subtitle">
-            Strumenti intelligenti per professionisti che vogliono fare la differenza.
-            Valuta, migliora e ottimizza il tuo messaggio per raggiungere il pubblico giusto.
+            Strumenti per allineare il tuo messaggio con quello che vuole la gente
           </p>
         </div>
       </section>
@@ -131,60 +121,58 @@ interface Tool {
 
     /* Hero Section */
     .hero-section {
-      background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+      background: #0a66c2;
       color: white;
-      padding: 80px 24px;
+      padding: 60px 24px 50px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+      pointer-events: none;
     }
 
     .hero-content {
-      max-width: 900px;
+      max-width: 700px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
-    .hero-logo {
-      margin-bottom: 32px;
-      display: flex;
-      justify-content: center;
-      animation: fadeInDown 0.6s ease-out;
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 16px 0;
+      letter-spacing: -0.5px;
+      animation: fadeInUp 0.6s ease-out;
     }
 
-    .hero-logo svg {
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    .hero-subtitle {
+      font-size: 18px;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin: 0;
+      animation: fadeInUp 0.6s 0.2s ease-out both;
     }
 
-    @keyframes fadeInDown {
+    @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
       }
-    }
-
-    .hero-title {
-      font-size: 48px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 24px;
-      letter-spacing: -0.5px;
-    }
-
-    .hero-title .highlight {
-      background: linear-gradient(120deg, #70b5f9 0%, #ffffff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-size: 20px;
-      line-height: 1.6;
-      opacity: 0.95;
-      max-width: 700px;
-      margin: 0 auto;
     }
 
     /* Tools Section */
@@ -409,12 +397,16 @@ interface Tool {
 
     /* Responsive */
     @media (max-width: 768px) {
+      .hero-section {
+        padding: 50px 20px 40px;
+      }
+
       .hero-title {
-        font-size: 36px;
+        font-size: 32px;
       }
 
       .hero-subtitle {
-        font-size: 18px;
+        font-size: 16px;
       }
 
       .tools-grid {
