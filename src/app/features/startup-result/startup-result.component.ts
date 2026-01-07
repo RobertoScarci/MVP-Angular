@@ -17,7 +17,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
             </svg>
           </div>
           <h1 class="result-title">Analisi Idea Startup</h1>
-          <p class="result-subtitle">Ecco l'analisi completa della tua idea con punti forti, debolezze, miglioramenti e rischi</p>
+          <p class="result-subtitle">Valutazione completa della tua idea</p>
         </div>
 
         <div class="card main-card" [@cardSlideIn] *ngIf="analysis">
@@ -345,9 +345,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
     .main-card {
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 32px;
+      border: 1px solid #e9e5df;
     }
 
     .score-toggle-section {
@@ -362,10 +363,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
     }
 
     .score-section {
-      margin-bottom: 40px;
-      padding: 32px;
+      margin-bottom: 32px;
+      padding: 24px;
       background: #f9fafb;
-      border-radius: 16px;
+      border-radius: 8px;
     }
 
     .score-header {
@@ -422,7 +423,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     }
 
     .score-value {
-      font-size: 64px;
+      font-size: 56px;
       font-weight: 700;
       color: #0a66c2;
     }
@@ -434,9 +435,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
     }
 
     .analysis-section {
-      margin-bottom: 32px;
-      padding: 24px;
-      border-radius: 12px;
+      margin-bottom: 24px;
+      padding: 20px;
+      border-radius: 8px;
     }
 
     .analysis-section.strengths {
@@ -467,12 +468,13 @@ import { trigger, transition, style, animate } from '@angular/animations';
     }
 
     .section-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .section-icon.success {
@@ -492,14 +494,14 @@ import { trigger, transition, style, animate } from '@angular/animations';
     }
 
     .section-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       color: white;
     }
 
     .section-header h3 {
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
       margin: 0;
     }
 
@@ -513,10 +515,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 16px;
+      padding: 14px;
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     }
 
     .item-icon {
@@ -567,28 +569,28 @@ import { trigger, transition, style, animate } from '@angular/animations';
     }
 
     .detailed-analysis {
-      margin-top: 40px;
-      padding-top: 40px;
-      border-top: 3px solid #e9e5df;
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 2px solid #e9e5df;
     }
 
     .detailed-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 32px;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
     }
 
     .category-analysis {
-      margin-bottom: 32px;
-      padding: 24px;
+      margin-bottom: 24px;
+      padding: 20px;
       background: #f9fafb;
-      border-radius: 12px;
+      border-radius: 8px;
     }
 
     .category-analysis h4 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
     }
 
     .metrics {
