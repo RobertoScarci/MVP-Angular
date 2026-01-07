@@ -444,8 +444,8 @@ export class HomepageComponent {
       description: 'Valuta se la tua idea di startup ha potenziale. Analizza il problema, il target, la soluzione e ottieni feedback su cosa migliorare per allinearti al mercato.',
       icon: 'trending_up',
       color: '#057642',
-      route: '/startup-validator',
-      comingSoon: true
+      route: '/startup-validator/step/problem',
+      comingSoon: false
     },
     {
       id: 'video-analyzer',

@@ -15,6 +15,12 @@ import { ResultComponent } from './features/result/result.component';
 import { ChecklistComponent } from './features/result/checklist/checklist.component';
 import { WarningsComponent } from './features/result/warnings/warnings.component';
 import { ProgressIndicatorComponent } from './features/wizard/progress-indicator/progress-indicator.component';
+import { StepProblemComponent } from './features/startup-wizard/steps/step-problem/step-problem.component';
+import { StepSolutionComponent } from './features/startup-wizard/steps/step-solution/step-solution.component';
+import { StepTargetMarketComponent } from './features/startup-wizard/steps/step-target-market/step-target-market.component';
+import { StepCompetitionComponent } from './features/startup-wizard/steps/step-competition/step-competition.component';
+import { StepBusinessModelComponent } from './features/startup-wizard/steps/step-business-model/step-business-model.component';
+import { StartupResultComponent } from './features/startup-result/startup-result.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +39,12 @@ const routes: Routes = [
   { path: 'bio-linkedin/step/activity', component: StepActivityComponent },
   { path: 'bio-linkedin/step/goal', component: StepGoalComponent },
   { path: 'bio-linkedin/result', component: ResultComponent },
+  { path: 'startup-validator/step/problem', component: StepProblemComponent },
+  { path: 'startup-validator/step/solution', component: StepSolutionComponent },
+  { path: 'startup-validator/step/target-market', component: StepTargetMarketComponent },
+  { path: 'startup-validator/step/competition', component: StepCompetitionComponent },
+  { path: 'startup-validator/step/business-model', component: StepBusinessModelComponent },
+  { path: 'startup-validator/result', component: StartupResultComponent },
   // Redirect legacy routes
   { path: 'step/role', redirectTo: '/bio-linkedin/step/role', pathMatch: 'full' },
   { path: 'step/target', redirectTo: '/bio-linkedin/step/target', pathMatch: 'full' },
@@ -54,7 +66,13 @@ const routes: Routes = [
     ResultComponent,
     ChecklistComponent,
     WarningsComponent,
-    ProgressIndicatorComponent
+    ProgressIndicatorComponent,
+    StepProblemComponent,
+    StepSolutionComponent,
+    StepTargetMarketComponent,
+    StepCompetitionComponent,
+    StepBusinessModelComponent,
+    StartupResultComponent
   ],
   imports: [
     BrowserModule,
